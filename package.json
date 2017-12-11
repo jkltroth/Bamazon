@@ -1,0 +1,26 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "An Amazon-like app built with nodeJS and MySQL.",
+  "main": "CLI.js",
+  "scripts": {
+    "test": "na"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkltroth/Bamazon.git"
+  },
+  "keywords": [
+    "na"
+  ],
+  "author": "James Roth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jkltroth/Bamazon/issues"
+  },
+  "homepage": "https://github.com/jkltroth/Bamazon#readme",
+  "dependencies": {
+    "inquirer": "^4.0.1",
+    "mysql": "^2.15.0"
+  }
+}
