@@ -69,7 +69,7 @@ const viewProducts = function () {
 const viewLowInventory = function () {
     console.log('------------------');
     console.log("Searching for low inventory products...\n");
-    let query = "SELECT * FROM products HAVING stock_quantity <= 5 ORDER BY item_id";
+    let query = "SELECT * FROM products HAVING stock_quantity <= 15 ORDER BY item_id";
     connection.query(query, function (error, results) {
 
         if (results.length === 0) {
@@ -79,7 +79,7 @@ const viewLowInventory = function () {
 
         } else if (results.length > 0) {
             results.forEach(function (element) {
-                console.log('Product ID: ' + element.item_id + '\nName: ' + element.product_name + '\nPrice: $' + element.price + '\nQuantity: ' + element.stock_quantity + '\n');
+                console.log('Product ID: ' + element.item_id + '\nName: ' + element.product_name + '\nQuantity: ' + element.stock_quantity + '\n');
             });
 
             selectAnOption();
@@ -94,10 +94,6 @@ const addToInventory = function () {
 };
 
 const addNewProduct = function () {
-
-};
-
-const exitProgram = function () {
 
 };
 
