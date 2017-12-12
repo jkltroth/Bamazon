@@ -37,8 +37,6 @@ const displayProducts = function () {
 
         });
 
-        // connection.end();
-
         buyProduct();
     });
 }
@@ -47,18 +45,37 @@ const buyProduct = function () {
     console.log('------------------');
     inquirer.prompt([prompts.productIDPrompt, prompts.numberOfUnitsPrompt])
         .then(function (answers) {
-            var query = "SELECT item_id, stock_quantity FROM products WHERE ?";
+            let query = "SELECT item_id, stock_quantity, price FROM products WHERE ?";
             connection.query(query, {
                 item_id: answers.productID
             }, function (error, results) {
-                console.log(results);
 
                 if (answers.numberOfUnits <= results[0].stock_quantity) {
-                    console.log('Success!');
-                } else if (answers.numberOfUnits > results[0].stock_quantity) {
-                    console.log('Insufficient stock!');
-                }
+                    let totalCost = answers.numberOfUnits * results[0].price;
+                    let updatedStockQuantity = results[0].stock_quantity - answers.numberOfUnits;
 
+                    let query = connection.query(
+                        "UPDATE products SET ? WHERE ?", [{
+                                stock_quantity: updatedStockQuantity
+                            },
+                            {
+                                item_id: answers.productID
+                            }
+                        ],
+                        function (error, results) {
+                            console.log('------------------');
+                            console.log('Success!');
+                            console.log('The total cost of your purchase is: $' + totalCost);
+                            connection.end();
+                        }
+                    );
+                } else if (answers.numberOfUnits > results[0].stock_quantity) {
+                    console.log('------------------');
+                    console.log('Insufficient stock!');
+                    console.log('Only ' + results[0].stock_quantity + ' units available.');
+                    console.log('Please try again.');
+                    buyProduct();
+                }
             });
         });
 }
