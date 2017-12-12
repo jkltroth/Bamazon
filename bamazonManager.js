@@ -36,17 +36,15 @@ const selectAnOption = function () {
                     break;
 
                 case "Add to Inventory":
-                    //do something
+                    addToInventory();
                     break;
 
                 case "Add New Product":
-                    //do something
+                    addNewProduct();
                     break;
 
                 case "Exit":
-                    console.log('------------------');
-                    console.log("See you next time!");
-                    connection.end();
+                    exitProgram();
                     break;
             }
         });
@@ -90,11 +88,17 @@ const viewLowInventory = function () {
 
 
 const addToInventory = function () {
-
+    //do stuff
 };
 
 const addNewProduct = function () {
+    //do stuff
+};
 
+const exitProgram = function () {
+    console.log('------------------');
+    console.log("See you next time!");
+    connection.end();
 };
 
 connection.connect(function (err) {
