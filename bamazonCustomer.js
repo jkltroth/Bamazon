@@ -49,32 +49,40 @@ const buyProduct = function () {
             connection.query(query, {
                 item_id: answers.productID
             }, function (error, results) {
+                if (results.length === 0) {
 
-                if (answers.numberOfUnits <= results[0].stock_quantity) {
-                    let totalCost = answers.numberOfUnits * results[0].price;
-                    let updatedStockQuantity = results[0].stock_quantity - answers.numberOfUnits;
-
-                    let query = connection.query(
-                        "UPDATE products SET ? WHERE ?", [{
-                                stock_quantity: updatedStockQuantity
-                            },
-                            {
-                                item_id: answers.productID
-                            }
-                        ],
-                        function (error, results) {
-                            console.log('------------------');
-                            console.log('Success!');
-                            console.log('The total cost of your purchase is: $' + totalCost);
-                            connection.end();
-                        }
-                    );
-                } else if (answers.numberOfUnits > results[0].stock_quantity) {
                     console.log('------------------');
-                    console.log('Insufficient stock!');
-                    console.log('Only ' + results[0].stock_quantity + ' units available.');
-                    console.log('Please try again.');
+                    console.log("\nProduct ID not found\n");
                     buyProduct();
+
+                } else if (results.length > 0) {
+
+                    if (answers.numberOfUnits <= results[0].stock_quantity) {
+                        let totalCost = answers.numberOfUnits * results[0].price;
+                        let updatedStockQuantity = results[0].stock_quantity - answers.numberOfUnits;
+
+                        let query = connection.query(
+                            "UPDATE products SET ? WHERE ?", [{
+                                    stock_quantity: updatedStockQuantity
+                                },
+                                {
+                                    item_id: answers.productID
+                                }
+                            ],
+                            function (error, results) {
+                                console.log('------------------');
+                                console.log('\nSuccess!');
+                                console.log('The total cost of your purchase is: $' + totalCost);
+                                connection.end();
+                            }
+                        );
+                    } else if (answers.numberOfUnits > results[0].stock_quantity) {
+                        console.log('------------------');
+                        console.log('\nInsufficient stock!');
+                        console.log('Only ' + results[0].stock_quantity + ' units available.');
+                        console.log('Please try again.\n');
+                        buyProduct();
+                    }
                 }
             });
         });
