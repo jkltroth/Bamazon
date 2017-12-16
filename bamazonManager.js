@@ -192,7 +192,6 @@ const addNewProduct = function () {
     });
 };
 
-
 const exitProgram = function () {
     console.log('------------------');
     console.log("\nSee you next time!");
